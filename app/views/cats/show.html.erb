@@ -1,0 +1,89 @@
+<h1><%= @cat.name %></h1>
+
+<img src="http://placekitten.com/g/300/300">
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="1">Attribute</th>
+            <th colspan="1">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+       <tr>
+        <td>Age</td>
+        <td><%= @cat.age %></td>
+      </tr>
+      <% @cat.attributes.keys.each do |key| %>
+        <% next if %w(id name description created_at updated_at).include?(key) %>
+        <tr>
+            <td><%= key %></td>
+            <td><%= @cat[key] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
+
+<a href= "<%= edit_cat_url(@cat) %>">Edit me!</a>
+
+<% rental_requests =  @cat.rental_requests.select do |pending_request| %>
+    <% pending_request.status == 'PENDING' %>
+<% end %>
+<% unless rental_requests.empty? %>
+    <h1>Pending Requests</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th colspan="1">Start Date</th>
+                <th colspan="1">End Date</th>
+                <th colspan="1">Approve</th>
+                <th colspan="1">Deny</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <% rental_requests.each do |rental_request| %>
+            <tr>
+                <td><%= rental_request.start_date %></td>
+                <td><%= rental_request.end_date %></td>
+                <td>
+                    <form action="<%= approve_cat_rental_request_url(rental_request.id) %>" method="post">
+                        <input type="hidden" name="_method" value="put">
+                        <input type="submit" value="Approve">
+                    </form>
+                </td>
+                <td>
+                    <form action="<%= deny_cat_rental_request_url(rental_request.id) %>" method="post">
+                        <input type="hidden" name="_method" value="put">
+                        <input type="submit" value="Deny">
+                    </form>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+
+<h1>Rental Requests</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="1">Start Date</th>
+            <th colspan="1">End Date</th>
+            <th colspan="1">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% rental_requests =  @cat.rental_requests.sort_by{ |rental_request| rental_request.start_date } %>
+      <% rental_requests.each do |rental_request| %>
+        <tr>
+            <td><%= rental_request.start_date %></td>
+            <td><%= rental_request.end_date %></td>
+            <td><%= rental_request.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>

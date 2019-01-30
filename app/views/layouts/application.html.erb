@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cats99</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <style>
+    .content {
+    max-width: 500px;
+    margin: auto;
+    }
+</style>
+
+  <body style="background-color:powderblue;" class="content"> 
+  <nav class="main-nav">
+    <h1><a href= "<%= cats_url %>">See All Cats</a></h1>
+    </nav>
+    
+    <%= yield %>
+  </body>
+</html>

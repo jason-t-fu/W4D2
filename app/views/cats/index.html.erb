@@ -1,0 +1,19 @@
+<h1>All of the cats in the world</h1>
+
+<img src="http://placekitten.com/g/231/231">
+
+<ul>
+  <% @cats.each do |cat| %>
+    <li>
+      <%= cat.name %>
+      <ul>
+        <li><a href= "<%= cat_url(cat) %>">View me!</a></li>
+        <li><a href= "<%= edit_cat_url(cat) %>">Edit me!</a></li>
+        <li><form action="<%= cat_url(cat) %>" method="post">
+                          <input type="hidden" name="_method" value="delete">
+                          <input type="submit" value="Delete Me! :(">
+          </form></li>
+      </ul>
+    </li>
+  <% end %>
+</ul>
